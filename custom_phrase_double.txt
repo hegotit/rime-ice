@@ -1,0 +1,5 @@
+ncu	ncu
+ncu -u	ncuu
+PR	pr
+MDX	manx
+MDD	mand
