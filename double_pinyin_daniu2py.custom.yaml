@@ -1,0 +1,7 @@
+patch:
+  melt_eng/enable_user_dict: true
+  pin_cand_filter/+:
+    - shue	Vue
+    - niem	npm
+    - nüm	nvm
+    - zhoul	URL
