@@ -137,13 +137,17 @@ type schema struct {
 }
 
 var (
-	doublePinyin        schema
-	doublePinyinFlypy   schema
-	doublePinyinMSPY    schema
-	doublePinyinSogou   schema
-	doublePinyinZiGuang schema
-	doublePinyinABC     schema
-	doublePinyinJiajia  schema
+	doublePinyin         schema
+	doublePinyinFlypy    schema
+	doublePinyinMSPY     schema
+	doublePinyinSogou    schema
+	doublePinyinZiGuang  schema
+	doublePinyinABC      schema
+	doublePinyinJiajia   schema
+	doublePinyinDaniupy  schema
+	doublePinyinDaniu2py schema
+	doublePinyinYiliupy  schema
+	doublePinyinYiweipy  schema
 )
 
 func initSchemas() {
@@ -526,6 +530,286 @@ func initSchemas() {
 			"un":   "z",
 		},
 	}
+
+	doublePinyinDaniupy = schema{
+		name:            "cn_en_daniupy",
+		desc:            "大牛双拼",
+		combinationType: "multi",
+		path:            filepath.Join(RimeDir, "en_dicts/cn_en_daniupy.txt"),
+		mapping: map[string]string{
+			// 零声母
+			"-a-":   "ea",
+			"-e-":   "ee",
+			"-o-":   "eo",
+			"-ai-":  "eh",
+			"-ei-":  "ew",
+			"-ou-":  "er",
+			"-an-":  "ed",
+			"-en-":  "ek",
+			"-ang-": "ef",
+			"-eng-": "ej",
+			"-ao-":  "es",
+			"-er-":  "eu",
+			// zh ch sh
+			"zh": "a,o",
+			"ch": "i",
+			"sh": "v,u",
+			// 韵母
+			"ua":   "q",
+			"ian":  "q,c",
+			"ei":   "w",
+			"ou":   "r",
+			"iu":   "t",
+			"un":   "y",
+			"uo":   "o",
+			"ie":   "p",
+			"ao":   "s",
+			"an":   "d",
+			"ang":  "f",
+			"uai":  "g",
+			"ing":  "g",
+			"ai":   "h",
+			"ue":   "h,x",
+			"eng":  "j",
+			"en":   "k",
+			"ia":   "k",
+			"ong":  "l",
+			"iong": "l",
+			"uan":  "z",
+			"uang": "x",
+			"ve":   "x",
+			"ui":   "v,n",
+			"in":   "b",
+			"iang": "n",
+			"iao":  "m",
+		},
+		additionalMapping: map[string]string{
+			"jun":  "jw",
+			"qun":  "qw",
+			"xun":  "xw",
+			"yun":  "yw",
+			"juan": "jj",
+			"quan": "qj",
+			"xuan": "xj",
+			"yuan": "yj",
+			"ju":   "jv",
+			"qu":   "qv",
+			"xu":   "xv",
+			"yu":   "yv",
+		},
+	}
+
+	doublePinyinDaniu2py = schema{
+		name:            "cn_en_daniu2py",
+		desc:            "大牛双拼2",
+		combinationType: "multi",
+		path:            filepath.Join(RimeDir, "en_dicts/cn_en_daniu2py.txt"),
+		mapping: map[string]string{
+			// 零声母
+			"-a-":   "ea",
+			"-e-":   "ee",
+			"-o-":   "eo",
+			"-ai-":  "eh",
+			"-ei-":  "ew",
+			"-ou-":  "eu",
+			"-an-":  "ed",
+			"-en-":  "ek",
+			"-ang-": "ef",
+			"-eng-": "ej",
+			"-ao-":  "es",
+			"-er-":  "er",
+			// zh ch sh
+			"zh": "a,o",
+			"ch": "i",
+			"sh": "v,u",
+			// 韵母
+			"ua":   "q",
+			"ian":  "q,c",
+			"ei":   "w",
+			"ou":   "r",
+			"iu":   "t",
+			"un":   "y",
+			"uo":   "o",
+			"ie":   "p",
+			"ao":   "s",
+			"an":   "d",
+			"ang":  "f",
+			"uai":  "g",
+			"ing":  "g",
+			"ai":   "h",
+			"ue":   "h,x",
+			"eng":  "j",
+			"en":   "k",
+			"ia":   "k",
+			"ong":  "l",
+			"iong": "l",
+			"uan":  "z",
+			"uang": "x",
+			"ve":   "x",
+			"ui":   "v,n",
+			"in":   "b",
+			"iang": "n",
+			"iao":  "m",
+		},
+		additionalMapping: map[string]string{
+			"jun":  "jw",
+			"qun":  "qw",
+			"xun":  "xw",
+			"yun":  "yw",
+			"juan": "jj",
+			"quan": "qj",
+			"xuan": "xj",
+			"yuan": "yj",
+			"ju":   "jv",
+			"qu":   "qv",
+			"xu":   "xv",
+			"yu":   "yv",
+		},
+	}
+
+	doublePinyinYiliupy = schema{
+		name:            "cn_en_yiliupy",
+		desc:            "易浏双拼",
+		combinationType: "multi",
+		path:            filepath.Join(RimeDir, "en_dicts/cn_en_yiliupy.txt"),
+		mapping: map[string]string{
+			// 零声母
+			"-a-":   "aa",
+			"-e-":   "ee",
+			"-o-":   "oo",
+			"-ai-":  "ai",
+			"-ei-":  "ei",
+			"-ou-":  "ou",
+			"-an-":  "an",
+			"-en-":  "en",
+			"-ang-": "ef",
+			"-eng-": "ej",
+			"-ao-":  "ao",
+			"-er-":  "er",
+			// zh ch sh
+			"zh": "a,u",
+			"ch": "i",
+			"sh": "v,o",
+			// 韵母
+			"ua":   "q",
+			"ian":  "q,c",
+			"ei":   "w",
+			"ou":   "r",
+			"iu":   "t",
+			"un":   "y",
+			"uo":   "o",
+			"ie":   "p",
+			"ao":   "s",
+			"an":   "d",
+			"ang":  "f",
+			"uai":  "g",
+			"ing":  "g",
+			"ai":   "h",
+			"ue":   "h,x",
+			"eng":  "j",
+			"en":   "k",
+			"ia":   "k",
+			"ong":  "l",
+			"iong": "l",
+			"uan":  "z",
+			"uang": "x",
+			"ve":   "x",
+			"ui":   "v,n",
+			"in":   "b",
+			"iang": "n",
+			"iao":  "m",
+		},
+		additionalMapping: map[string]string{
+			"jun":  "jw",
+			"qun":  "qw",
+			"xun":  "xw",
+			"yun":  "yw",
+			"juan": "jj",
+			"quan": "qj",
+			"xuan": "xj",
+			"yuan": "yj",
+			"ju":   "jv",
+			"qu":   "qv",
+			"xu":   "xv",
+			"yu":   "yv",
+		},
+		excludingMapping: map[string]string{
+			"zha":  "aa",
+			"zhi":  "ai",
+			"zhui": "an",
+			"zhuo": "ao",
+			"shu":  "ou",
+			"shuo": "oo",
+		},
+	}
+
+	doublePinyinYiweipy = schema{
+		name:            "cn_en_yiweipy",
+		desc:            "乙未双拼",
+		combinationType: "multi",
+		path:            filepath.Join(RimeDir, "en_dicts/cn_en_yiweipy.txt"),
+		mapping: map[string]string{
+			// 零声母
+			"-a-":   "ea",
+			"-e-":   "ee",
+			"-o-":   "eo",
+			"-ai-":  "eh",
+			"-ei-":  "ew",
+			"-ou-":  "eu",
+			"-an-":  "ed",
+			"-en-":  "ek",
+			"-ang-": "ef",
+			"-eng-": "ej",
+			"-ao-":  "es",
+			"-er-":  "er",
+			// zh ch sh
+			"zh": "a,u",
+			"ch": "i",
+			"sh": "v,o",
+			// 韵母
+			"ua":   "q",
+			"ian":  "q,c",
+			"ei":   "w",
+			"ou":   "r",
+			"iu":   "t",
+			"un":   "y",
+			"uo":   "o",
+			"ie":   "p",
+			"ao":   "s",
+			"an":   "d",
+			"ang":  "f",
+			"uai":  "g",
+			"ing":  "g",
+			"ai":   "h",
+			"ue":   "h,x",
+			"eng":  "j",
+			"en":   "k",
+			"ia":   "k",
+			"ong":  "l",
+			"iong": "l",
+			"uan":  "z",
+			"uang": "x",
+			"ve":   "x",
+			"ui":   "v,n",
+			"in":   "b",
+			"iang": "n",
+			"iao":  "m",
+		},
+		additionalMapping: map[string]string{
+			"jun":  "jw",
+			"qun":  "qw",
+			"xun":  "xw",
+			"yun":  "yw",
+			"juan": "jj",
+			"quan": "qj",
+			"xuan": "xj",
+			"yuan": "yj",
+			"ju":   "jv",
+			"qu":   "qv",
+			"xu":   "xv",
+			"yu":   "yv",
+		},
+	}
 }
 
 // CnEn 从 others/cn_en.txt 生成全拼和各个双拼的中英混输词库
@@ -548,6 +832,10 @@ func CnEn() {
 		doublePinyinZiGuang,
 		doublePinyinABC,
 		doublePinyinJiajia,
+		doublePinyinDaniupy,
+		doublePinyinDaniu2py,
+		doublePinyinYiliupy,
+		doublePinyinYiweipy,
 	}
 
 	// 写入前缀内容
