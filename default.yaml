@@ -32,7 +32,7 @@ menu:
 switcher:
   caption: 「方案选单」
   hotkeys:
-    - F4
+#    - F4
     - Control+grave
     - Control+Shift+grave
     # - Alt+grave
@@ -70,7 +70,7 @@ ascii_composer:
   switch_key:
     Caps_Lock: clear      # commit_code | commit_text | clear
     Shift_L: commit_code  # commit_code | commit_text | inline_ascii | clear | noop
-    Shift_R: noop         # commit_code | commit_text | inline_ascii | clear | noop
+    Shift_R: commit_code  # commit_code | commit_text | inline_ascii | clear | noop
     Control_L: noop       # commit_code | commit_text | inline_ascii | clear | noop
     Control_R: noop       # commit_code | commit_text | inline_ascii | clear | noop
 
@@ -207,12 +207,14 @@ key_binder:
 
     # 两种按键配置，鼠须管 Control+Shift+4 生效，小狼毫 Control+Shift+dollar 生效，都写上了。
     # numbered_mode_switch:
+    - { when: always, select: .next, accept: Alt+grave }                          # 在最近的两个方案之间切换
     # - { when: always, select: .next, accept: Control+Shift+1 }                  # 在最近的两个方案之间切换
     # - { when: always, select: .next, accept: Control+Shift+exclam }             # 在最近的两个方案之间切换
     # - { when: always, toggle: ascii_mode, accept: Control+Shift+2 }             # 切换中英
     # - { when: always, toggle: ascii_mode, accept: Control+Shift+at }            # 切换中英
     - { when: always, toggle: ascii_punct, accept: Control+Shift+3 }              # 切换中英标点
     - { when: always, toggle: ascii_punct, accept: Control+Shift+numbersign }     # 切换中英标点
+    - { when: always, toggle: traditionalization, accept: F4 }                    # 切换简繁
     - { when: always, toggle: traditionalization, accept: Control+Shift+4 }       # 切换简繁
     - { when: always, toggle: traditionalization, accept: Control+Shift+dollar }  # 切换简繁
     # - { when: always, toggle: full_shape, accept: Control+Shift+5 }             # 切换全半角
