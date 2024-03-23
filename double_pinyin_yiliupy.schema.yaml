@@ -16,7 +16,7 @@
 schema:
   schema_id: double_pinyin_yiliupy
   name: 易浏双拼
-  version: "1.1.1"
+  version: "1.1.2"
   author:
     - hegotit
   description: |
@@ -164,6 +164,10 @@ translator:
     - xform/^/［/
     - xform/$/］/
   preedit_format:               # preedit_format 影响到输入框的显示和“Shift+回车”上屏的字符
+    - xform/(.+)/$1 \($1\)/  # 复制一份副本
+    - xlit/QWERTYUIOPASDFGHJKLZXCVBNM/ⓆⓌⒺⓇⓉⓎⓊⒾⓄⓅⒶⓈⒹⒻⒼⒽⒿⓀⓁⓏⓍⒸⓋⒷⓃⓂ  # 保留原大写
+    - xform/(.+)(?<= \()(.+)/$1\U$2\E/ # 保留原码的转为大写
+    - xlit/ABCDEFGHIJKLMNOPQRSTUVWXYZ/ⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩ # 保留原码的部分，再从大写转写
     - xform/(^|[ '])aa/$1ㄚ/
     - xform/(^|[ '])ai/$1ㄞ/
     - xform/(^|[ '])an/$1ㄢ/
@@ -234,6 +238,9 @@ translator:
     - xform/ㄠ/ao/
     - xform/ㄛ/o/
     - xform/ㄡ/ou/
+    - xform/([ⓐ-ⓩ]+)\s/$1/ #去除紧随其后的制表符
+    - xlit/ⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩ/abcdefghijklmnopqrstuvwxyz # 转回小写
+    - xlit/ⓆⓌⒺⓇⓉⓎⓊⒾⓄⓅⒶⓈⒹⒻⒼⒽⒿⓀⓁⓏⓍⒸⓋⒷⓃⓂ/QWERTYUIOPASDFGHJKLZXCVBNM/ # 恢复原大写
 
 
 # 次翻译器，英文
