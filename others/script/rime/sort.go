@@ -76,11 +76,28 @@ func Sort(dictPath string, _type int) {
 			contents = append(contents, lemma{text: text})
 		case 2: // 两列 【汉字+注音】
 			text, code = parts[0], parts[1]
-			if aSet.Contains(text + code) {
+			var key string
+			if dictPath == EnPath || dictPath == AHDPath || dictPath == EnProperPath {
+				//if strings.Contains(text, "|") {
+				//	texts := strings.Split(text, "|")
+				//	code := strings.Split(text, "|")
+				//
+				//	for index, left := range texts {
+				//		right := code[index]
+				//		contents = append(contents, lemma{text: left, code: right})
+				//	}
+				//	continue
+				//}
+
+				key = getValidCode(text) + code
+			} else {
+				key = text + code
+			}
+			if aSet.Contains(key) {
 				fmt.Println("重复：", line)
 				continue
 			}
-			aSet.Add(text + code)
+			aSet.Add(key)
 			contents = append(contents, lemma{text: text, code: code})
 		case 3: // 三列 【汉字+注音+权重】
 			text, code, weight = parts[0], parts[1], parts[2]
@@ -167,7 +184,8 @@ func Sort(dictPath string, _type int) {
 
 	// ext tencent 词库需要从一个或多个词库中去重后再写入
 	isEnExt := dictPath == EnExtPath
-	if dictPath == ExtPath || dictPath == TencentPath || isEnExt {
+	isEn := dictPath == EnPath
+	if dictPath == ExtPath || dictPath == TencentPath || isEn || isEnExt {
 		var intersect mapset.Set[string] // 交集，有交集的就是重复的
 		switch dictPath {
 		case ExtPath:
@@ -176,6 +194,8 @@ func Sort(dictPath string, _type int) {
 			intersect = TencentSet.Intersect(BaseSet.Union(ExtSet))
 		case EnExtPath:
 			intersect = EnExtSet.Intersect(EnSet)
+		case EnPath:
+			intersect = AHDSet.Intersect(EnSet)
 		}
 
 		baseName := strings.Split(path.Base(dictPath), ".")[0]
@@ -184,16 +204,52 @@ func Sort(dictPath string, _type int) {
 			var key string
 			if isEnExt {
 				key = getKey4EngSet(line.text, line.code, rule4EnExt)
+			} else if isEn {
+				key = getKey4EngSet(line.text, line.code, rule4AHD)
 			} else {
 				key = line.text
 			}
 
+			//if isEn {
+			//	if lemmas, exists := AHDMap[key]; exists {
+			//		if !lemmas.Contains(line) {
+			//			for anyOne := range lemmas.Iter() {
+			//				if original, ok := anyOne.(lemma); ok {
+			//					writeEntry(file, original.text, original.code, 0, false)
+			//					break
+			//				}
+			//			}
+			//		} else {
+			//			writeEntry(file, line.text, line.code, 0, false)
+			//		}
+			//	} else {
+			//		fmt.Printf("%s 重复于其他词库：%s\n", baseName, line.text)
+			//	}
+			//	continue
+			//}
+
 			if intersect.Contains(key) {
 				fmt.Printf("%s 重复于其他词库：%s\n", baseName, line.text)
+
+				// 从 map 中获取值并进行类型断言
+				//if leInterface, ok := AHDMap2[key]; ok {
+				//	if le, ok := leInterface.(lemma); ok {
+				//		// 如果类型断言成功，使用 le
+				//		writeEntry(file, le.text, le.code, 0, false)
+				//	} else {
+				//		// 类型断言失败
+				//		// 可以记录错误或进行其他处理
+				//		println("类型断言失败")
+				//	}
+				//} else {
+				//	// map 中不存在 key
+				//	// 可以记录错误或进行其他处理
+				//	println("键不存在于 map 中")
+				//}
 				continue
 			}
 
-			if isEnExt {
+			if isEnExt || isEn {
 				writeEntry(file, line.text, line.code, 0, false)
 			} else {
 				writeEntry(file, line.text, line.code, line.weight, true)
@@ -202,7 +258,7 @@ func Sort(dictPath string, _type int) {
 	}
 
 	// 外部词库或临时文件，只排序，不去重
-	if !contains([]string{HanziPath, BasePath, ExtPath, TencentPath, EnExtPath}, dictPath) {
+	if !contains([]string{HanziPath, BasePath, ExtPath, TencentPath, EnExtPath, EnPath}, dictPath) {
 		switch _type {
 		case 1:
 			for _, line := range contents {

@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"path"
+	"regexp"
 	"strconv"
 	"strings"
 	"time"
@@ -320,21 +321,30 @@ func Pinyin(dictPath string) {
 		}
 
 		parts := strings.Split(line, "\t")
-		text := parts[0]
-		var code string
-		// parts[1] 可能是：空、已经注音完成、注音到一半（含有未能自动注音的多音字汉字）
-		// 注音完成的，不再注音，其余的进行注音
-		if len(parts) == 1 { // 只有汉字
-			code = generatePinyin(text)
-		} else if len(parts) == 2 || len(parts) == 3 {
-			if isAllLower(parts[1]) { // 全小写，不包含汉字，代表已经注音完成
-				code = parts[1]
-			} else { // 注音到一半（含有汉字），重新注音
-				code = generatePinyin(text)
-			}
-		} else {
+		if len(parts) < 1 || len(parts) > 3 {
 			log.Fatalln("分割错误：", line)
 		}
+
+		text := parts[0]
+		var code string
+
+		if dictPath == EnPath || dictPath == AHDPath {
+			code = getValidCode(text)
+		} else {
+			// parts[1] 可能是：空、已经注音完成、注音到一半（含有未能自动注音的多音字汉字）
+			// 注音完成的，不再注音，其余的进行注音
+			if len(parts) == 1 { // 只有汉字
+				code = generatePinyin(text)
+			} else {
+				secondPart := parts[1]
+				if isAllLower(secondPart) { // 全小写，不包含汉字，代表已经注音完成
+					code = secondPart
+				} else { // 注音到一半（含有汉字），重新注音
+					code = generatePinyin(text)
+				}
+			}
+		}
+
 		lines[i] = text + "\t" + code
 	}
 
@@ -408,4 +418,25 @@ func isAllLower(s string) bool {
 		}
 	}
 	return true
+}
+
+func isPhrase(str string) bool {
+	// 正则表达式匹配
+	matched, _ := regexp.MatchString(`^(-*)[a-zA-Z]+([ '.-][a-zA-Z]*)*$`, str)
+	return matched
+}
+
+func getValidCode(text string) string {
+	text2 := strings.TrimLeft(text, "#")
+	text2 = strings.ReplaceAll(text2, " ", "")
+	return strings.ReplaceAll(text2, ".", "")
+}
+
+func containsUppercase(s string) bool {
+	for _, r := range s {
+		if unicode.IsUpper(r) {
+			return true
+		}
+	}
+	return false
 }

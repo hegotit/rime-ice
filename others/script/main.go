@@ -35,6 +35,7 @@ func main() {
 
 	// 为没注音的词汇半自动注音
 	rime.Pinyin(rime.ExtPath)
+	rime.Pinyin(rime.AHDPath)
 	fmt.Println("--------------------------------------------------")
 
 	// 为 ext、tencent 没权重的词条加上权重，有权重的改为下面设置的权重
@@ -65,7 +66,9 @@ SORT:
 	rime.Sort(rime.ExtPath, 3)
 	rime.Sort(rime.TencentPath, 4)
 	rime.Sort(rime.EnPath, 2)
+	rime.Sort(rime.EnProperPath, 2)
 	rime.Sort(rime.EnExtPath, 2)
+	rime.Sort(rime.AHDPath, 2)
 }
 
 func areYouOK() {

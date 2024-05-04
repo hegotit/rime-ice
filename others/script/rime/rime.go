@@ -2,7 +2,6 @@ package rime
 
 import (
 	"bufio"
-	"flag"
 	"fmt"
 	mapset "github.com/deckarep/golang-set/v2"
 	"log"
@@ -22,84 +21,55 @@ type lemma struct {
 	weight int    // 权重
 }
 
-// filterType:
-// 1.只匹配原本为全小写的
-// 2.仅首字母转为小写 如：Windows XP → windows xP
-// 3.全部转为小写
-// cutOffType: 1 去除空格 2 去除连字符"-" 3 去除空格及连字符
+// rule4EngEntry 定义了英文词条处理规则，包括词条过滤和字符剪切：
+// filterType: 词条过滤选项
+//  1. 仅匹配原本为全小写的词条
+//  2. 仅首字母转为小写（例如：'Windows XP' 转为 'windows xP'）
+//  3. 将所有字母转为小写
+//
+// cutOffType: 字符剪切选项
+//  1. 去除所有空格
+//  2. 去除所有连字符"-"
+//  3. 同时去除空格和连字符"-"
 type rule4EngEntry struct {
-	filterType int // 汉字
-	cutOffType int // 权重
+	filterType int // 词条筛选规则
+	cutOffType int // 字符剪切规则
 }
 
 var (
-	mark         = "# +_+" // 词库中的标记符号，表示从这行开始进行检查或排序
-	RimeDir      string
-	EmojiMapPath string
-	EmojiPath    string
-	HanziPath    string
-	BasePath     string
-	ExtPath      string
-	TencentPath  string
-	HanziSet     mapset.Set[string]
-	BaseSet      mapset.Set[string]
-	ExtSet       mapset.Set[string]
-	TencentSet   mapset.Set[string]
-	需要注音TXT      string
-	错别字TXT       string
-	汉字拼音映射TXT    string
-	AutoConfirm  bool
-)
-
-func init() {
-	// 定义命令行参数
-	flag.StringVar(&RimeDir, "rime_path", "", "Specify the Rime configuration directory")
-	flag.BoolVar(&AutoConfirm, "auto_confirm", false, "Automatically confirm the prompt")
-	flag.Parse()
-
-	RimeDir = getRimeDir(RimeDir) // Rime 配置目录
+	mark    = "# +_+"      // 词库中的标记符号，表示从这行开始进行检查或排序
+	RimeDir = getRimeDir() // Rime 配置目录
 
 	EmojiMapPath = filepath.Join(RimeDir, "others/emoji-map.txt")
-	EmojiPath = filepath.Join(RimeDir, "opencc/emoji.txt")
+	EmojiPath    = filepath.Join(RimeDir, "opencc/emoji.txt")
 
-	HanziPath = filepath.Join(RimeDir, "cn_dicts/8105.dict.yaml")
-	BasePath = filepath.Join(RimeDir, "cn_dicts/base.dict.yaml")
-	ExtPath = filepath.Join(RimeDir, "cn_dicts/ext.dict.yaml")
-	TencentPath = filepath.Join(RimeDir, "cn_dicts/tencent.dict.yaml")
-	EnPath      = filepath.Join(RimeDir, "en_dicts/en.dict.yaml")
-	EnExtPath   = filepath.Join(RimeDir, "en_dicts/en_ext.dict.yaml")
+	HanziPath    = filepath.Join(RimeDir, "cn_dicts/8105.dict.yaml")
+	BasePath     = filepath.Join(RimeDir, "cn_dicts/base.dict.yaml")
+	ExtPath      = filepath.Join(RimeDir, "cn_dicts/ext.dict.yaml")
+	TencentPath  = filepath.Join(RimeDir, "cn_dicts/tencent.dict.yaml")
+	EnPath       = filepath.Join(RimeDir, "en_dicts/en.dict.yaml")
+	EnExtPath    = filepath.Join(RimeDir, "en_dicts/en_ext.dict.yaml")
+	EnProperPath = filepath.Join(RimeDir, "en_dicts/en_proper.dict.yaml")
+	AHDPath      = filepath.Join(RimeDir, "en_dicts/AHD5_mix_split.yaml")
 
-	rule4En    = rule4EngEntry{1, 3}
-	rule4EnExt = rule4EngEntry{2, 3}
+	rule4En    = rule4EngEntry{3, 3}
+	rule4EnExt = rule4EngEntry{0, 3}
+	rule4AHD   = rule4EngEntry{4, 3}
 
-	HanziSet = readToSet(HanziPath)
-	BaseSet = readToSet(BasePath)
-	ExtSet = readToSet(ExtPath)
+	HanziSet   = readToSet(HanziPath)
+	BaseSet    = readToSet(BasePath)
+	ExtSet     = readToSet(ExtPath)
 	TencentSet = readToSet(TencentPath)
 	EnSet      = readToSet4Eng(EnPath, rule4En)
 	EnExtSet   = readToSet4Eng(EnExtPath, rule4EnExt)
+	AHDMap     = readToMap4Eng(AHDPath, rule4AHD)
+	AHDMap2    = readToMap4Eng2(AHDPath, rule4AHD)
+	AHDSet     = readToSet4Eng(AHDPath, rule4AHD)
 
-	需要注音TXT = filepath.Join(RimeDir, "others/script/rime/需要注音.txt")
-	错别字TXT = filepath.Join(RimeDir, "others/script/rime/错别字.txt")
+	需要注音TXT   = filepath.Join(RimeDir, "others/script/rime/需要注音.txt")
+	错别字TXT    = filepath.Join(RimeDir, "others/script/rime/错别字.txt")
 	汉字拼音映射TXT = filepath.Join(RimeDir, "others/script/rime/汉字拼音映射.txt")
-
-	initCheck()
-	initSchemas()
-	initPinyin()
-}
-
-func getRimeDir(rimePath string) string {
-	if rimePath != "" {
-		absPath, err := filepath.Abs(rimePath)
-		if err != nil {
-			log.Fatalf("Failed to get absolute path: %v", err)
-		}
-		// 使用传入的路径
-		return absPath
-	}
-
-	return getRimeDirForPlatform()
-}
+)
 
 // 将所有词库读入 set，供检查或排序使用
 func readToSet(dictPath string) mapset.Set[string] {
@@ -131,6 +101,103 @@ func readToSet(dictPath string) mapset.Set[string] {
 // 将所有词库读入 set，供检查或排序使用
 func readToSet4Eng(dictPath string, rule rule4EngEntry) mapset.Set[string] {
 	set := mapset.NewSet[string]()
+	set2 := mapset.NewSet[string]()
+
+	file, err := os.Open(dictPath)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	defer file.Close()
+
+	sc := bufio.NewScanner(file)
+	isMark := false
+	for sc.Scan() {
+		line := sc.Text()
+		if !isMark {
+			if strings.HasPrefix(line, mark) {
+				isMark = true
+			}
+			continue
+		}
+		if rule.filterType == 1 && !isLowercase(line) {
+			continue
+		}
+
+		parts := strings.Split(line, "\t")
+
+		text, code := parts[0], strings.ToLower(parts[1])
+
+		if rule.filterType == 4 {
+			if !containsCapital(line) {
+				set.Add(getKey4EngSet(text, code, rule))
+			} else {
+				set2.Add(getKey4EngSet(text, code, rule))
+			}
+			continue
+		}
+
+		set.Add(getKey4EngSet(text, code, rule))
+	}
+
+	if rule.filterType == 4 {
+		return set.Difference(set2)
+	}
+
+	return set
+}
+
+func readToMap4Eng2(dictPath string, rule rule4EngEntry) map[string]interface{} {
+	set := mapset.NewSet[string]()
+	set2 := mapset.NewSet[string]()
+	entries := make(map[string]interface{})
+
+	file, err := os.Open(dictPath)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	defer file.Close()
+
+	sc := bufio.NewScanner(file)
+	isMark := false
+	for sc.Scan() {
+		line := sc.Text()
+		if !isMark {
+			if strings.HasPrefix(line, mark) {
+				isMark = true
+			}
+			continue
+		}
+		if rule.filterType == 1 && !isLowercase(line) {
+			continue
+		}
+
+		parts := strings.Split(line, "\t")
+
+		text, code := parts[0], strings.ToLower(parts[1])
+		key := getKey4EngSet(text, code, rule)
+
+		if rule.filterType == 4 {
+			if !containsCapital(line) {
+				set.Add(key)
+				entries[key] = lemma{text: parts[0], code: parts[1]}
+			} else {
+				set2.Add(key)
+			}
+			continue
+		}
+
+		set.Add(key)
+	}
+
+	if rule.filterType == 4 {
+		return entries
+	}
+
+	return nil
+}
+
+func readToMap4Eng(dictPath string, rule rule4EngEntry) map[string]mapset.Set[interface{}] {
+	entries := make(map[string]mapset.Set[interface{}])
 
 	file, err := os.Open(dictPath)
 	if err != nil {
@@ -154,11 +221,30 @@ func readToSet4Eng(dictPath string, rule rule4EngEntry) mapset.Set[string] {
 		parts := strings.Split(line, "\t")
 
 		text, code := parts[0], strings.ToLower(parts[1])
-
-		set.Add(getKey4EngSet(text, code, rule))
+		key := getKey4EngSet(text, code, rule)
+		if _, exists := entries[key]; !exists {
+			entries[key] = mapset.NewSet[interface{}]()
+		}
+		entries[key].Add(lemma{text: parts[0], code: parts[1]})
 	}
+	filtered := make(map[string]mapset.Set[interface{}])
+	for key, set := range entries {
+		if set.Cardinality() >= 2 || hasCapitalStart(set) {
+			filtered[key] = set
+		}
+	}
+	return filtered
+}
 
-	return set
+func hasCapitalStart(set mapset.Set[interface{}]) bool {
+	for elem := range set.Iter() {
+		if l, ok := elem.(lemma); ok {
+			if len(l.text) > 0 && unicode.IsUpper(rune(l.text[0])) {
+				return true
+			}
+		}
+	}
+	return false
 }
 
 func getKey4EngSet(text string, code string, rule rule4EngEntry) string {
@@ -166,16 +252,16 @@ func getKey4EngSet(text string, code string, rule rule4EngEntry) string {
 		text = convertFirstLetterToLower(text)
 	} else if rule.filterType == 3 {
 		text = strings.ToLower(text)
+	} else if rule.filterType == 4 {
+		text = strings.ToLower(text)
 	}
 
-	if rule.cutOffType == 2 || rule.cutOffType == 3 {
-		code = modifyText(text, 2)
-	}
+	code = strings.ToLower(code)
 
-	return modifyText(text, rule.cutOffType) + code
+	return applyCutOff(text+code, rule.cutOffType)
 }
 
-func modifyText(text string, cutOffType int) string {
+func applyCutOff(text string, cutOffType int) string {
 	switch cutOffType {
 	case 1:
 		return strings.ReplaceAll(text, " ", "")
@@ -216,6 +302,15 @@ func isLowercase(s string) bool {
 		}
 	}
 	return true
+}
+
+func containsCapital(s string) bool {
+	for _, r := range s {
+		if unicode.IsUpper(r) {
+			return true
+		}
+	}
+	return false
 }
 
 // 打印耗时时间
