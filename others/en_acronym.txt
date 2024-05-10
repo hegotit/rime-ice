@@ -1,0 +1,242 @@
+# 英文缩拼词
+# 根据此文件更新对应的 en_dicts/en_ext.dict.yaml
+# version: 2024-05-10
+ABS	Anti-lock Braking System
+ACG	Animation Comics Games
+ADC	Attack Damage Carry
+ADHD	attention deficit hyperactivity disorder
+ADSL	Asymmetric Digital Subscriber Line
+AGI	Artificial general intelligence
+AIGC	AI Generated Content
+AOSP	Android Open Source Project
+APC	Ability Power Carry
+APFS	Apple File System
+API	Application Programming Interface
+APK	Android application package
+ARM	Advanced RISC Machine
+ASAP	as soon as possible
+ASMR	Autonomous sensory meridian response
+ATM	automated teller machine
+AUR	Arch User Repository
+AV	Adult Video
+AVIF	AV1 Image File Format
+AWP	Arctic Warfare Police
+AWS	Amazon Web Services
+BBQ	barbecue
+BBS	Bulletin Board System
+BGM	Background music
+BIOS	Basic Input/Output System
+BMW	Bayerische Motoren Werke AG
+BSD	Berkeley Software Distribution
+BTC	Bitcoin
+BTW	by the way
+Braavos	Braavos Wallet
+CBA	Chinese Basketball Association
+CCTV	Closed-Circuit Television	China Central Television
+CDN	Content Delivery Network
+CDPR	CD Projekt
+CEF	Chromium Embedded Framework
+CEO	Chief Executive Officer
+CFO	Chief Financial Officer
+CLI	Command-Line Interface
+COO	Chief Operating Officer
+CPU	Central Processing Unit
+CRUD	Create Read Update Delete
+CS	Counter-Strike
+CSS	Cascading Style Sheets
+CTO	Chief Technology Officer
+Cpp	C++
+DDoS	distributed denial-of-service attack
+DHCP	Dynamic Host Configuration Protocol
+DIY	Do It Yourself
+DLC	Downloadable content
+DMCA	Digital Millennium Copyright Act
+DNA	deoxyribonucleic acid
+DNS	Domain Name System
+DOS	Disk Operating System
+DYOR	Do Your Own Research
+DnD	D&D	Dungeons & Dragons
+DoH	DNS over HTTPS	DNS over HTTPS/3
+DoQ	DNS over QUIC
+DoS	denial-of-service attack
+EMS	Express Mail Service
+ExFAT	Extended File Allocation Table
+FAQ	Frequently Asked Question
+FBI	Federal Bureau of Investigation
+FIFA	Fédération Internationale de Football Association
+FIFO	First In, First Out
+FOMO	Fear of Missing Out
+FOSS	Free and open source software
+FPGA	field-programmable gate array
+FTP	File Transfer Protocol
+FYI	for your information
+GBA	Game Boy Advance
+GBC	Game Boy Color
+GCC	GNU Compiler Collection
+GCD	Grand Central Dispatch	greatest common divisor
+GDP	Gross Domestic Product
+GDP per capita	Gross Domestic Product per capita
+GDPR	General Data Protection Regulation
+GFM	GitHub Flavored Markdown
+GFW	Great Firewall
+GIF	Graphics Interchange Format
+GMT	Greenwich Mean Time
+GNU	GNU General Public License
+GPL	GNU General Public License
+GPT	Generative Pre-trained Transformer
+GPU	Graphics Processing Unit
+GTA	Grand Theft Auto
+GTAV	Grand Theft Auto V
+GUI	Graphical User Interface
+GUID	Globally Unique Identifier
+HDMI	High Definition Multimedia Interface
+HHD	Hybrid drive
+HHKB	Happy Hacking Keyboard
+HK	Hong Kong
+HTML	HyperText Markup Language
+HTTP	Hypertext Transfer Protocol
+HTTPS	Hypertext Transfer Protocol Secure
+IBM	International Business Machines
+ICMP	Internet Control Message Protocol
+ICP	Internet Content Provider
+IDC	International Data Corporation
+IE	Internet Explorer
+IEEE	Institute of Electrical and Electronics Engineers
+IEPL	International Ethernet Private Line
+IETF	Internet Engineering Task Force
+IMAP	Internet Message Access Protocol
+IME	Input Method Editor
+IMF	International Monetary Fund	IMF
+IPFS	InterPlanetary File System
+IPLC	International Private Leased Circuit
+IPO	Initial Public Offerings
+IPoE	Internet Protocol over Ethernet
+IQ	Intelligence quotient
+ISBN	International Standard Book Number
+ISO	International Organization for Standardization
+ISSN	International Standard Serial Number
+JDK	Java Development Kit
+JPEG	Joint Photographic Experts Group
+JPG	Joint Photographic Experts Group
+JRPG	Japanese Role-Playing Game
+JVM	Java Virtual Machine
+K8s	Kubernetes
+KPI	Key Performance Indicators
+LCD	Liquid Crystal Display
+LGPL	GNU Lesser General Public License
+LIFO	Last In, First out
+LLaMA	Large Language Model Meta AI
+LMAO	Laugh My Ass Off
+LOL	League of Legends	Laugh Out Loudly
+LSP	Language Server Protocol
+LaMDA	Language Model for Dialogue Applications
+MBA	MacBook Air
+MBP	MacBook Pro
+MIT	Massachusetts Institute of Technology
+MSVC	Microsoft Visual C++
+MTV	Music Television
+MVC	Model-View-Controller
+MVVM	Model-View-ViewModel
+MitM	man-in-the-middle
+NAS	Network Attached Storage
+NASA	National Aeronautics and Space Administration
+NATO	North Atlantic Treaty Organization
+NBA	National Basketball Association
+NFT	Non-Fungible Token
+NGO	Non-Governmental Organization
+NPC	Non-Player Character
+NPP	Notepad++
+NSFW	Not Safe For Work	Not Suitable For Work
+NTFS	New Technology File System	Microsoft NTFS
+OC	Objective-C
+OCR	Optical Character Recognition
+OCSP	Online Certificate Status Protocol
+OMG	Oh My God
+ORM	Object Relational Mapping
+OS	Operating System
+OSS	Object Storage Service
+PCIe	PCI Express
+PDF	Portable Document Format
+PHP	Hypertext Preprocessor
+PL/pgSQL	Procedural Language / PostGres Structured Query Language
+PNG	Portable Network Graphics
+PPPoE	Point-to-Point Protocol over Ethernet
+PPT	PowerPoint	Microsoft PowerPoint
+PS	Photoshop	Adobe Photoshop
+PUA	Pickup Artists
+PUBG	PLAYERUNKNOWN'S BATTLEGROUND
+PVE	player versus environment
+PVP	Player versus Player
+PaaS	platform as a service
+QUIC	Quick UDP Internet Connections
+QoS	Quality of Service
+RAM	random-access memory
+RFC	Request for Comments
+RFT	Rich Text Format
+RNA	ribonucleic acid
+ROM	read-only memory
+RPG	Role-Playing Game
+RSS	RDF Site Summary	Really Simple Syndication
+SDDM	Simple Desktop Display Manager
+SDK	Software Development Kit
+SEO	Search Engine Optimization
+SFC	Software Freedom Conservancy
+SFTP	SSH File Transfer Protocol
+SMTP	Simple Mail Transfer Protocol
+SQL	Structured Query Language
+SQL Server	Microsoft SQL Server
+SSD	Solid-state drive
+SSH	Secure Shell
+SSID	Service Set Identifier
+SSL	Secure Sockets Layer
+SUV	Sport Utility Vehicle
+SVG	Scalable Vector Graphics
+SVN	Apache Subversion
+SaaS	Software as a service
+TCP	Transmission Control Protocol
+TL;DR	too long; didn't read
+TLS	Transport Layer Security
+TOC	Table of Contents
+TODO	Microsoft To Do
+TOML	Tom's Obvious Minimal Language
+TOTP	Time-based One-Time Password
+UDP	User Datagram Protocol
+UFO	Unidentified Flying Object
+UID	User ID
+UK	United Kingdom
+UPnP	Universal Plug and Play
+URI	Uniform Resource Identifier
+URL	Uniform Resource Locator
+US	United States
+USA	United States	The United States of America
+USB	Universal Serial Bus
+USD	United States Dollar
+USSR	Union of Soviet Socialist Republics
+UTC	Coordinated Universal Time
+UUID	Universally Unique Identifier
+VCD	Video CD
+VCS	version control system
+VLAN	Virtual Local Area Network
+VPN	virtual private network
+VPS	Virtual private server
+VoIP	Voice over Internet Protocol
+VoLTE	Voice Over LTE
+WLAN	Wireless LAN
+WMV	Windows Media Video
+WTF	what the fuck
+WWDC	Apple Worldwide Developers Conference
+WYSIWYG	What You See Is What You Get
+XHTML	eXtensible HyperText Markup Language
+XML	Extensible Markup Language
+YAML	YAML Ain't Markup Language
+a11y	accessibility
+aPaaS	application Platform as a Servic
+g11n	globalization
+i18n	internationalization
+l10n	localization
+m17n	multilingualization
+mRNA	messenger RNA
+npm	Node Package Manager
+nvm	Node Version Manager
+p13n	personalization
+t9n	translation
