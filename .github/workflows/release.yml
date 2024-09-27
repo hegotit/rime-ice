@@ -3,7 +3,7 @@ name: Build and Release
 on:
   push:
     branches:
-      - main
+      - dev
     tags:
       - "[0-9]+.*"
     paths:
@@ -16,7 +16,6 @@ on:
 jobs:
   Release:
     runs-on: ubuntu-latest
-    if: github.repository == 'iDvel/rime-ice'
 
     steps:
       - name: Checkout
@@ -55,7 +54,7 @@ jobs:
           cp README.md dist/README.md
 
       - name: Create nightly release
-        if: ${{ github.ref == 'refs/heads/main' }}
+        if: ${{ github.ref == 'refs/heads/dev' }}
         uses: "softprops/action-gh-release@v2"
         with:
           body: |
@@ -72,7 +71,7 @@ jobs:
             - `LICENSE.txt`：开源协议
 
           tag_name: nightly
-          name: "nightly build"
+          name: "Nightly Build"
           make_latest: true
           files: |
             dist/*
